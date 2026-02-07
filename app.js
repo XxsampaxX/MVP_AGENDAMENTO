@@ -1,6 +1,9 @@
 /* ======================
    STORAGE
 ====================== */
+if (!localStorage.getItem("logado")) {
+  window.location.href = "login.html";
+}
 function getData(key) {
   return JSON.parse(localStorage.getItem(key)) || [];
 }
