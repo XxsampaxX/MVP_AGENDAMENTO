@@ -1,9 +1,6 @@
-/* ======================
-   STORAGE
-====================== */
-if (!localStorage.getItem("logado")) {
-  window.location.href = "login.html";
-}
+/*************************
+ * STORAGE HELPERS
+ *************************/
 function getData(key) {
   return JSON.parse(localStorage.getItem(key)) || [];
 }
@@ -12,16 +9,61 @@ function setData(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-/* ======================
-   CLIENTES
-====================== */
-function cadastrarCliente(nome, telefone) {
+/*************************
+ * AUTH (LOGIN)
+ *************************/
+function login(e) {
+  e.preventDefault();
+
+  const user = document.getElementById("user").value;
+  const pass = document.getElementById("pass").value;
+
+  if (user && pass) {
+    localStorage.setItem("auth", "true");
+    window.location.href = "index.html";
+  }
+}
+
+function checkAuth() {
+  if (!localStorage.getItem("auth")) {
+    window.location.href = "login.html";
+  }
+}
+
+function logout() {
+  localStorage.removeItem("auth");
+  window.location.href = "login.html";
+}
+
+/*************************
+ * DASHBOARD
+ *************************/
+function loadDashboard() {
+  if (!document.getElementById("totalClientes")) return;
+
+  document.getElementById("totalClientes").innerText =
+    getData("clientes").length;
+
+  document.getElementById("totalServicos").innerText =
+    getData("servicos").length;
+
+  document.getElementById("totalAgendamentos").innerText =
+    getData("agendamentos").length;
+}
+
+/*************************
+ * CLIENTES
+ *************************/
+function cadastrarCliente() {
+  const nome = document.getElementById("clienteNome").value;
+  const telefone = document.getElementById("clienteTelefone").value;
+
   if (!nome || !telefone) return alert("Preencha todos os campos");
 
   const clientes = getData("clientes");
   clientes.push({ id: Date.now(), nome, telefone });
-  setData("clientes", clientes);
 
+  setData("clientes", clientes);
   listarClientes();
 }
 
@@ -29,29 +71,42 @@ function listarClientes() {
   const lista = document.getElementById("listaClientes");
   if (!lista) return;
 
-  const clientes = getData("clientes");
   lista.innerHTML = "";
 
-  clientes.forEach(c => {
+  getData("clientes").forEach(c => {
     lista.innerHTML += `
-      <div class="list-item">
-        <span>${c.nome}</span>
-        <span>${c.telefone}</span>
-      </div>
+      <tr>
+        <td>${c.nome}</td>
+        <td>${c.telefone}</td>
+        <td>
+          <button onclick="excluirCliente(${c.id})">Excluir</button>
+        </td>
+      </tr>
     `;
   });
 }
 
-/* ======================
-   SERVIÇOS
-====================== */
-function cadastrarServico(nome, preco, duracao) {
-  if (!nome || !preco || !duracao) return alert("Preencha todos os campos");
+function excluirCliente(id) {
+  const clientes = getData("clientes").filter(c => c.id !== id);
+  setData("clientes", clientes);
+  listarClientes();
+}
+
+/*************************
+ * SERVIÇOS
+ *************************/
+function cadastrarServico() {
+  const nome = document.getElementById("servicoNome").value;
+  const preco = document.getElementById("servicoPreco").value;
+  const duracao = document.getElementById("servicoDuracao").value;
+
+  if (!nome || !preco || !duracao)
+    return alert("Preencha todos os campos");
 
   const servicos = getData("servicos");
   servicos.push({ id: Date.now(), nome, preco, duracao });
-  setData("servicos", servicos);
 
+  setData("servicos", servicos);
   listarServicos();
 }
 
@@ -59,105 +114,72 @@ function listarServicos() {
   const lista = document.getElementById("listaServicos");
   if (!lista) return;
 
-  const servicos = getData("servicos");
   lista.innerHTML = "";
 
-  servicos.forEach(s => {
+  getData("servicos").forEach(s => {
     lista.innerHTML += `
-      <div class="list-item">
-        <span>${s.nome}</span>
-        <span>R$ ${s.preco}</span>
-        <span>${s.duracao} min</span>
-      </div>
+      <tr>
+        <td>${s.nome}</td>
+        <td>R$ ${s.preco}</td>
+        <td>${s.duracao} min</td>
+        <td>
+          <button onclick="excluirServico(${s.id})">Excluir</button>
+        </td>
+      </tr>
     `;
   });
 }
 
-/* ======================
-   AGENDAMENTOS
-====================== */
-function agendarServico(clienteId, servicoId, data, hora) {
-  if (!clienteId || !servicoId || !data || !hora) {
-    return alert("Preencha todos os campos");
-  }
-
-  const agendamentos = getData("agendamentos");
-  agendamentos.push({
-    id: Date.now(),
-    clienteId,
-    servicoId,
-    data,
-    hora
-  });
-
-  setData("agendamentos", agendamentos);
-  listarAgendamentos();
-}
-
-function listarAgendamentos() {
-  const lista = document.getElementById("listaAgendamentos");
-  if (!lista) return;
-
-  const clientes = getData("clientes");
-  const servicos = getData("servicos");
-  const agendamentos = getData("agendamentos");
-
-  lista.innerHTML = "";
-
-  agendamentos.forEach(a => {
-    const cliente = clientes.find(c => c.id == a.clienteId);
-    const servico = servicos.find(s => s.id == a.servicoId);
-
-    lista.innerHTML += `
-      <div class="list-item agenda-item">
-        <span>${cliente?.nome || "-"}</span>
-        <span>${servico?.nome || "-"}</span>
-        <span>${a.data} ${a.hora}</span>
-      </div>
-    `;
-  });
-}
-
-/* ======================
-   DASHBOARD
-====================== */
-function atualizarDashboard() {
-  if (document.getElementById("totalClientes")) {
-    totalClientes.innerText = getData("clientes").length;
-    totalServicos.innerText = getData("servicos").length;
-    totalAgendamentos.innerText = getData("agendamentos").length;
-  }
-}
-
-/* ======================
-   INIT
-====================== */
-document.addEventListener("DOMContentLoaded", () => {
-  listarClientes();
+function excluirServico(id) {
+  const servicos = getData("servicos").filter(s => s.id !== id);
+  setData("servicos", servicos);
   listarServicos();
-  listarAgendamentos();
-  atualizarDashboard();
+}
 
-  carregarSelects();
-});
-
-/* ======================
-   SELECTS (AGENDA)
-====================== */
-function carregarSelects() {
-  const clienteSelect = document.getElementById("clienteSelect");
-  const servicoSelect = document.getElementById("servicoSelect");
+/*************************
+ * AGENDA
+ *************************/
+function carregarSelectsAgenda() {
+  const clienteSelect = document.getElementById("agendaCliente");
+  const servicoSelect = document.getElementById("agendaServico");
 
   if (!clienteSelect || !servicoSelect) return;
 
-  const clientes = getData("clientes");
-  const servicos = getData("servicos");
+  clienteSelect.innerHTML = "";
+  servicoSelect.innerHTML = "";
 
-  clienteSelect.innerHTML = clientes.map(c =>
-    `<option value="${c.id}">${c.nome}</option>`
-  ).join("");
+  getData("clientes").forEach(c => {
+    clienteSelect.innerHTML += `<option value="${c.nome}">${c.nome}</option>`;
+  });
 
-  servicoSelect.innerHTML = servicos.map(s =>
-    `<option value="${s.id}">${s.nome}</option>`
-  ).join("");
+  getData("servicos").forEach(s => {
+    servicoSelect.innerHTML += `<option value="${s.nome}">${s.nome}</option>`;
+  });
 }
+
+function agendar() {
+  const cliente = document.getElementById("agendaCliente").value;
+  const servico = document.getElementById("agendaServico").value;
+  const data = document.getElementById("agendaData").value;
+  const hora = document.getElementById("agendaHora").value;
+
+  if (!cliente || !servico || !data || !hora)
+    return alert("Preencha todos os campos");
+
+  const agendamentos = getData("agendamentos");
+  agendamentos.push({ id: Date.now(), cliente, servico, data, hora });
+
+  setData("agendamentos", agendamentos);
+  alert("Agendamento realizado!");
+}
+
+/*************************
+ * INIT
+ *************************/
+document.addEventListener("DOMContentLoaded", () => {
+  checkAuth();
+  loadDashboard();
+  listarClientes();
+  listarServicos();
+  carregarSelectsAgenda();
+});
