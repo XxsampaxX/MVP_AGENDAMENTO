@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Agenda Fácil</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Agenda Fácil</h1>
+    <nav>
+      <button onclick="show('dashboard')">Dashboard</button>
+      <button onclick="show('agenda')">Agenda</button>
+      <button onclick="show('clientes')">Clientes</button>
+      <button onclick="show('servicos')">Serviços</button>
+      <button onclick="logout()">Sair</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="dashboard"></section>
+    <section id="agenda" class="hidden"></section>
+    <section id="clientes" class="hidden"></section>
+    <section id="servicos" class="hidden"></section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
