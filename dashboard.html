@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h2>AgendaPro</h2>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="clientes.html">Clientes</a>
+      <a href="servicos.html">Serviços</a>
+      <a href="agenda.html">Agenda</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <span>Dashboard</span>
+      <button onclick="logout()">Sair</button>
+    </header>
+
+    <section class="dashboard">
+      <div class="card">
+        <h3>Clientes</h3>
+        <p id="totalClientes">0</p>
+      </div>
+      <div class="card">
+        <h3>Serviços</h3>
+        <p id="totalServicos">0</p>
+      </div>
+      <div class="card">
+        <h3>Agendamentos</h3>
+        <p id="totalAgendamentos">0</p>
+      </div>
+    </section>
+
+    <section class="grafico-container">
+      <canvas id="grafico"></canvas>
+    </section>
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

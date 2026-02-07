@@ -1,31 +1,103 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Agenda Fácil</title>
+  <title>Sistema de Agendamento</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Agenda Fácil</h1>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>AgendaPro</h2>
     <nav>
-      <button onclick="show('dashboard')">Dashboard</button>
-      <button onclick="show('agenda')">Agenda</button>
-      <button onclick="show('clientes')">Clientes</button>
-      <button onclick="show('servicos')">Serviços</button>
-      <button onclick="logout()">Sair</button>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#clientes">Clientes</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#agenda">Agenda</a>
     </nav>
-  </header>
+  </aside>
 
-  <main>
-    <section id="dashboard"></section>
-    <section id="agenda" class="hidden"></section>
-    <section id="clientes" class="hidden"></section>
-    <section id="servicos" class="hidden"></section>
+  <!-- CONTEÚDO -->
+  <main class="content">
+
+    <!-- HEADER -->
+    <header class="topbar">
+      <span>Bem-vindo 👋</span>
+      <button onclick="logout()">Sair</button>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="dashboard">
+      <div class="card">
+        <h3>Clientes</h3>
+        <p id="totalClientes">0</p>
+      </div>
+      <div class="card">
+        <h3>Serviços</h3>
+        <p id="totalServicos">0</p>
+      </div>
+      <div class="card">
+        <h3>Agendamentos</h3>
+        <p id="totalAgendamentos">0</p>
+      </div>
+    </section>
+
+    <section class="grafico-container">
+      <canvas id="grafico"></canvas>
+    </section>
+
+    <!-- CLIENTES -->
+    <section id="clientes" class="section">
+      <h2>Clientes</h2>
+      <div class="form-group">
+        <input id="clienteNome" placeholder="Nome">
+        <input id="clienteTelefone" placeholder="Telefone (DDD + número)">
+        <button onclick="cadastrarCliente(
+          clienteNome.value,
+          clienteTelefone.value
+        )">Cadastrar</button>
+      </div>
+    </section>
+
+    <!-- SERVIÇOS -->
+    <section id="servicos" class="section">
+      <h2>Serviços</h2>
+      <div class="form-group">
+        <input id="servicoNome" placeholder="Serviço">
+        <input id="servicoPreco" placeholder="Preço">
+        <input id="servicoDuracao" placeholder="Duração (min)">
+        <button onclick="cadastrarServico(
+          servicoNome.value,
+          servicoPreco.value,
+          servicoDuracao.value
+        )">Cadastrar</button>
+      </div>
+    </section>
+
+    <!-- AGENDA -->
+    <section id="agenda" class="section">
+      <h2>Agendamento</h2>
+      <div class="form-group">
+        <select id="clienteSelect"></select>
+        <select id="servicoSelect"></select>
+        <input type="date" id="data">
+        <input type="time" id="hora">
+        <button onclick="agendarServico(
+          clienteSelect.value,
+          servicoSelect.value,
+          data.value,
+          hora.value
+        )">Agendar</button>
+      </div>
+    </section>
+
   </main>
+</div>
 
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Clientes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h2>AgendaPro</h2>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="clientes.html">Clientes</a>
+      <a href="servicos.html">Serviços</a>
+      <a href="agenda.html">Agenda</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <span>Clientes</span>
+      <button onclick="logout()">Sair</button>
+    </header>
+
+    <section class="section">
+      <h2>Cadastrar Cliente</h2>
+      <div class="form-group">
+        <input id="clienteNome" placeholder="Nome">
+        <input id="clienteTelefone" placeholder="Telefone">
+        <button onclick="cadastrarCliente(
+          clienteNome.value,
+          clienteTelefone.value
+        )">Cadastrar</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

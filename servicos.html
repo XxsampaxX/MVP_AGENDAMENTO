@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Serviços</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h2>AgendaPro</h2>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="clientes.html">Clientes</a>
+      <a href="servicos.html">Serviços</a>
+      <a href="agenda.html">Agenda</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <span>Serviços</span>
+      <button onclick="logout()">Sair</button>
+    </header>
+
+    <section class="section">
+      <h2>Cadastrar Serviço</h2>
+      <div class="form-group">
+        <input id="servicoNome" placeholder="Nome do serviço">
+        <input id="servicoPreco" placeholder="Preço">
+        <input id="servicoDuracao" placeholder="Duração (min)">
+        <button onclick="cadastrarServico(
+          servicoNome.value,
+          servicoPreco.value,
+          servicoDuracao.value
+        )">Cadastrar</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

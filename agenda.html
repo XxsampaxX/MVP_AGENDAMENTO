@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Agenda</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h2>AgendaPro</h2>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="clientes.html">Clientes</a>
+      <a href="servicos.html">Serviços</a>
+      <a href="agenda.html">Agenda</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <span>Agendamento</span>
+      <button onclick="logout()">Sair</button>
+    </header>
+
+    <section class="section">
+      <h2>Novo Agendamento</h2>
+      <div class="form-group">
+        <select id="clienteSelect"></select>
+        <select id="servicoSelect"></select>
+        <input type="date" id="data">
+        <input type="time" id="hora">
+        <button onclick="agendarServico(
+          clienteSelect.value,
+          servicoSelect.value,
+          data.value,
+          hora.value
+        )">Agendar</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
